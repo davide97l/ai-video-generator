@@ -61,9 +61,16 @@ import sys
 import os
 
 # Add the local_ai directory to the path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'local_ai'))
+current_dir = os.path.dirname(os.path.abspath(__file__))
+local_ai_dir = os.path.join(current_dir, '..', '..', 'local_ai')
+sys.path.insert(0, local_ai_dir)
 
-from local_music_gen import mindsflow_function as local_music_function
+try:
+    from local_music_gen import mindsflow_function as local_music_function
+except ImportError as e:
+    print(f"Error importing local_music_gen: {e}")
+    print("Make sure to run 'python setup_local_ai.py' first")
+    raise
 
 def mindsflow_function(event, context) -> dict:
     """
